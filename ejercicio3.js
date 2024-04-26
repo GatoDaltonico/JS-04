@@ -24,19 +24,17 @@ function dividirNumero() {
 // Ejercicio 3. Sociedad Secreta
 function nombreSecreto() {
     const miembros = prompt('Ingrese los nombres de los miembros separados por coma: ').split(',');
-    const letrasSecretas = {};
+    const iniciales = [];
 
     miembros.forEach(miembro => {
-        const nombreLimpio = miembro.trim()[0].toUpperCase(); // Tomamos la primera letra y la convertimos a mayúsculas
-        if (!letrasSecretas[nombreLimpio]) {
-            letrasSecretas[nombreLimpio] = nombreLimpio;
-        } else {
-            letrasSecretas[nombreLimpio] += nombreLimpio; // Concatenamos la letra si ya existe en letrasSecretas
-        }
+        const nombreLimpio = miembro.trim().toUpperCase(); // Convertimos a mayúsculas
+        const primeraLetra = nombreLimpio[0];
+        iniciales.push(primeraLetra);
     });
 
-    const nombre = Object.values(letrasSecretas).join('');
-    console.log(`El nombre secreto de la sociedad es: ${nombre}`);
+    const nombreSecreto = iniciales.sort().join('');
+
+    console.log(`El nombre secreto de la sociedad es: ${nombreSecreto}`);
 }
 
 // Ejercicio 4. Estado en línea
@@ -74,12 +72,24 @@ function dominanciaPositiva() {
 // Ejercicio 7. Promedio Antipodal
 function promedioAntipodal() {
     const array = prompt('Ingrese los elementos del array separados por coma: ').split(',').map(Number);
+    
+    // Eliminar el elemento del medio si la longitud del array es impar
+    if (array.length % 2 !== 0) {
+        const indiceMedio = Math.floor(array.length / 2);
+        array.splice(indiceMedio, 1);
+    }
+    
+    // Dividir el array en dos partes iguales
     const mitad = Math.floor(array.length / 2);
     const primeraMitad = array.slice(0, mitad);
-    const segundaMitad = array.slice(-mitad).reverse();
-    if (array.length % 2 !== 0) segundaMitad.shift(); // Si es impar, elimina el elemento del medio
-    const resultado = primeraMitad.map((valor, indice) => (valor + segundaMitad[indice]) / 2);
-    console.log(`El promedio antipodal es: ${resultado}`);
+    const segundaMitad = array.slice(mitad);
+    
+    // Calcular los promedios antipodales
+    const resultado = primeraMitad.map((valor, indice) => {
+        return (valor + segundaMitad[segundaMitad.length - 1 - indice]) / 2;
+    });
+
+    console.log(`El resultado del promedio antipodal es: ${resultado}`);
 }
 
 // Ejecución de las funciones en orden
